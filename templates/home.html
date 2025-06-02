@@ -1,0 +1,182 @@
+<!--
+<h1>User</h1>
+    <button><a href="/signup">Sign-Up</a></button>
+    <button><a href="/login">Login</a></button>
+<h1>HR</h1>
+<button><a href="/hrsignup">Sign-Up</a></button>
+    <button><a href="/hrlogin">Login</a></button>
+<h1>Admin Login</h1>
+<button><a href="/adlogin">Login</a></button>
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ResumeAI</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+      :root {
+        --primary: #3b82f6;
+        --primary-dark: #2563eb;
+        --secondary: #6366f1;
+        --dark: #1e293b;
+        --light: #f8fafc;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      html { scroll-behavior: smooth; }
+      body {
+        background: var(--light);
+        color: var(--dark);
+        line-height: 1.6;
+      }
+      .navbar {
+        background: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      .navbar-brand {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .navbar-menu a {
+        margin-left: 1.5rem;
+        text-decoration: none;
+        color: var(--dark);
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+      .navbar-menu a:hover { color: var(--primary); }
+      .hero {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        text-align: center;
+        padding: 6rem 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero:before {
+        content: '';
+        position: absolute;
+        top: -50%; left: -50%; width: 200%; height: 200%;
+        background: rgba(255,255,255,0.05);
+        transform: rotate(45deg);
+        animation: slide 20s linear infinite;
+      }
+      @keyframes slide { from { transform: translate(0) rotate(45deg); } to { transform: translate(50%,50%) rotate(45deg); } }
+      .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        animation: fadeInUp 1s ease forwards;
+      }
+      .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 2.5rem;
+        opacity: 0.9;
+        animation: fadeInUp 1s 0.2s ease forwards;
+      }
+      .hero .btn-group {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        animation: fadeInUp 1s 0.4s ease forwards;
+      }
+      .btn { padding: 0.75rem 1.5rem; border: none; border-radius: 0.5rem; font-size: 1rem; font-weight: 600; cursor: pointer; position: relative; overflow: hidden; transition: transform 0.3s; text-decoration: none; display: inline-block; text-align: center; }
+      .btn:hover { transform: translateY(-2px); }
+      .btn-primary { background: var(--primary); color: white; }
+      .btn-secondary { background: var(--light); color: var(--primary); border: 2px solid var(--primary); }
+      section { padding: 4rem 2rem; }
+      .container { max-width: 1200px; margin: 0 auto; }
+      .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; }
+      .feature-card { background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: center; opacity: 0; transform: translateY(30px); animation: fadeInUp 0.8s ease forwards; }
+      .feature-card:nth-child(1) { animation-delay: 0.2s; }
+      .feature-card:nth-child(2) { animation-delay: 0.4s; }
+      .feature-card:nth-child(3) { animation-delay: 0.6s; }
+      .feature-card i { font-size: 2rem; margin-bottom: 1rem; color: var(--primary); }
+      .feature-card h3 { margin-bottom: 0.5rem; }
+      .contact { background: var(--primary); color: white; text-align: center; }
+      .contact form { display: flex; flex-direction: column; max-width: 500px; margin: 0 auto; gap: 1rem; animation: fadeInUp 1s ease forwards; }
+      .contact input, .contact textarea { padding: 0.75rem; border: none; border-radius: 0.5rem; font-size: 1rem; }
+      .contact button { align-self: center; }
+      @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+      footer { text-align: center; padding: 1rem; font-size: 0.875rem; color: #94a3b8; }
+      @media(max-width:768px) { .hero h1 { font-size: 2.5rem; } }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-brand"><i class="fas fa-file-alt"></i> ResumeAI</div>
+      <div class="navbar-menu">
+        <a href="#">Home</a>
+        <a href="#features">Features</a>
+        <a href="#contact">Contact</a>
+          <a href="/adlogin">Admin</a>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1>Empower Your Career</h1>
+      <p>Leverage AI to analyze, match, and categorize your resumes in seconds.</p>
+      <div class="btn-group">
+        <a href="/hrlogin" class="btn btn-primary">HR Login</a>
+        <a href="/login" class="btn btn-secondary">User Login</a>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="container">
+      <h2 style="text-align:center; margin-bottom:2rem;">Our Features</h2>
+      <div class="features">
+        <div class="feature-card">
+          <i class="fas fa-chart-line"></i>
+          <h3>AI Resume Analysis</h3>
+          <p>Get detailed insights on readability, keywords, and formatting for optimal impact.</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-code-branch"></i>
+          <h3>Resume-Description Matching</h3>
+          <p>Match your resume against job descriptions to highlight relevant skills automatically.</p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-tags"></i>
+          <h3>Category Prediction</h3>
+          <p>Auto-categorize resumes into roles like Engineering, Sales, Marketing, and more.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+      <h2>Get in Touch</h2>
+      <p>Have questions? We'd love to hear from you.</p>
+      <form action="#" method="POST">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <textarea name="message" rows="4" placeholder="Your Message" required></textarea>
+        <button type="submit" class="btn btn-primary">Send Message</button>
+      </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      &copy; 2025 ResumeAI. All rights reserved.
+    </footer>
+  </body>
+</html>

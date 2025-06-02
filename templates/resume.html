@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resume Details - ResumeAI</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+      :root {
+        --primary: #3b82f6;
+        --primary-dark: #2563eb;
+        --secondary: #6366f1;
+        --dark: #1e293b;
+        --light: #f8fafc;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #f1f5f9;
+        color: var(--dark);
+        line-height: 1.6;
+        padding-bottom: 2rem;
+      }
+
+      .navbar {
+        background-color: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .navbar-brand {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .navbar-menu {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .navbar-menu a {
+        text-decoration: none;
+        color: var(--dark);
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+
+      .navbar-menu a:hover {
+        color: var(--primary);
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+      }
+
+      .details-card {
+        background-color: white;
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+        opacity: 0;
+        animation: fadeIn 0.8s forwards;
+      }
+
+      .details-header {
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+
+      .details-header h1 {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+      }
+
+      .details-section {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+      }
+
+      .detail-item {
+        flex: 1 1 300px;
+        background-color: var(--light);
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.6s forwards;
+      }
+
+      /* Staggered animation delays for each detail item */
+      .detail-item:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      .detail-item:nth-child(2) {
+        animation-delay: 0.4s;
+      }
+      .detail-item:nth-child(3) {
+        animation-delay: 0.6s;
+      }
+      .detail-item:nth-child(4) {
+        animation-delay: 0.8s;
+      }
+      .detail-item:nth-child(5) {
+        animation-delay: 1s;
+      }
+
+      .detail-title {
+        font-weight: 600;
+        color: var(--secondary);
+        margin-bottom: 0.5rem;
+      }
+
+      .detail-content {
+        font-size: 1rem;
+        color: var(--dark);
+      }
+
+      .predict-btn {
+        display: inline-block;
+        padding: 1rem 2rem;
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 0.5rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: background-color 0.3s, transform 0.3s;
+        box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+        margin: 2rem auto 0;
+        display: block;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.6s forwards;
+        animation-delay: 1.2s;
+      }
+
+      .predict-btn:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
+      }
+
+      .predict-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 5px rgba(59, 130, 246, 0.3);
+      }
+
+      .predict-btn .btn-ripple {
+        position: absolute;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.3);
+        transform: scale(0);
+        animation: ripple 0.6s linear;
+        pointer-events: none;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes ripple {
+        to {
+          transform: scale(4);
+          opacity: 0;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 1rem;
+        }
+
+        .navbar-menu {
+          gap: 1rem;
+        }
+
+        .container {
+          padding: 0 1rem;
+        }
+
+        .details-section {
+          flex-direction: column;
+        }
+      }
+
+       /* Popup window styling */
+      .popup-window {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .popup-window.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .popup-content {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        text-align: center;
+        position: relative;
+        transform: scale(0.8);
+        animation: popupIn 0.4s forwards;
+      }
+
+      @keyframes popupIn {
+        to {
+          transform: scale(1);
+        }
+      }
+
+      .close-popup {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: var(--dark);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <i class="fas fa-file-alt"></i>
+        ResumeAI
+      </div>
+      <div class="navbar-menu">
+        <a href="#">Home</a>
+        <a href="#">Features</a>
+        <a href="#">Pricing</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+
+    <!-- Resume Details Section -->
+    <div class="container">
+      <div class="details-card">
+        <div class="details-header">
+          <h1>Resume Details</h1>
+          <p>Review the comprehensive information below</p>
+        </div>
+        <div class="details-section">
+          <div class="detail-item">
+            <div class="detail-title">Name</div>
+            <div class="detail-content">{{name}}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-title">Email</div>
+            <div class="detail-content">{{email}}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-title">Contact Number</div>
+            <div class="detail-content">{{phone}}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-title">Skills</div>
+            <div class="detail-content">
+              <!--
+              <ul>
+                <li>JavaScript, HTML, CSS</li>
+                <li>React & Node.js</li>
+                <li>Python & Data Analysis</li>
+              </ul>
+              -->
+              {{extracted_skills}}
+            </div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-title">Education</div>
+            <div class="detail-content">
+                <p>{{extracted_education}}</p>
+            </div>
+          </div>
+        </div>
+        <!-- Category Prediction Button -->
+        <button class="predict-btn" id="predict-btn">
+          <i class="fas fa-chart-line"></i> Predict Category
+        </button>
+      </div>
+    </div>
+    <div id="pred-cat" style="display: none;">{{predicted_category}}</div>
+     <div class="popup-window" id="popup-window">
+      <div class="popup-content">
+        <span class="close-popup" id="close-popup">&times;</span>
+        <p id="popup-text" style="font-size: 1.2rem; font-weight: 600"></p>
+      </div>
+    </div>
+    <script>
+      // Category prediction button ripple effect and click interaction
+      const predictBtn = document.getElementById("predict-btn");
+      const popupWindow = document.getElementById("popup-window");
+      const popupText = document.getElementById("popup-text");
+      const closePopup = document.getElementById("close-popup");
+      const predicted = document.getElementById("pred-cat");
+      const category = predicted.textContent;
+
+      predictBtn.addEventListener("click", function (e) {
+        const button = this;
+        const ripple = document.createElement("span");
+        ripple.classList.add("btn-ripple");
+
+        const rect = button.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+
+        ripple.style.width = ripple.style.height = `${size}px`;
+        ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+        ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+
+        button.appendChild(ripple);
+
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
+
+        //let pc = {{predicted_category}}
+        // Set predicted category value and show popup with animation
+        popupText.textContent = "Predicted Category: " + category;
+        popupWindow.classList.add("show");
+      });
+
+      // Close popup when clicking the close icon or outside the content
+      closePopup.addEventListener("click", function () {
+        popupWindow.classList.remove("show");
+      });
+
+      popupWindow.addEventListener("click", function (e) {
+        if (e.target === popupWindow) {
+          popupWindow.classList.remove("show");
+        }
+      });
+    </script>
+  </body>
+</html>
