@@ -21,7 +21,7 @@ tfidf_vectorizer_job_recommendation = pickle.load(open("models/tfidf_vectorizer_
 
 load_dotenv()
 
-genai.configure(api_key="AIzaSyDjYT39ug61cSBv2QV3ocGn3IkBb5meJWU")
+genai.configure(api_key="")
 
 
 def extract_text_from_pdf2(pdf_path):
